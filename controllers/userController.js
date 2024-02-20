@@ -16,19 +16,17 @@ const getUsers = async(req, res) => {
 //Burada yeni bir kullanıcı oluşturuyoruz.
 
 const createUser = async(req,res) => {
-
                const { username} = req.body;
 try {
                const { rows: existingUsers } = await Pool.query(queries.getUserByUsername, [username]);
                if (existingUsers.length) {
-                 return res.status(409).json({ message: 'We already have this email!' });
+                 return res.status(200).json({ message: existingUsers});
                }
                else{
-                const {rows :createdUser} =  Pool.query(queries.createUser, [username])
-               return res.status(200).json({message : 'User created!'})
-               }
-               
+               const {rows : data} = await  Pool.query(queries.createUser, [username])
+               return res.status(200).json({message : data})
 
+               }
 } catch (error) {
           console.log(error)     
 }
@@ -36,6 +34,8 @@ try {
                
 
 }
+
+
 
 
              module.exports = { getUsers,createUser};
