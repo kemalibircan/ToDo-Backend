@@ -17,6 +17,7 @@ const getUsers = async(req, res) => {
 
 const createUser = async(req,res) => {
                const { username} = req.body;
+               console.log(req)
 try {
                const { rows: existingUsers } = await Pool.query(queries.getUserByUsername, [username]);
                if (existingUsers.length) {
@@ -25,7 +26,6 @@ try {
                else{
                const {rows : data} = await  Pool.query(queries.createUser, [username])
                return res.status(200).json({message : data})
-
                }
 } catch (error) {
           console.log(error)     
